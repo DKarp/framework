@@ -1,5 +1,25 @@
 Next Release
 
+ - Mad_Model_Collection, Mad_Model_PaginatedCollection, and 
+   Mad_Model_Errors no longer extend Mad_Model_ArrayObject.  
+   They now implement ArrayAccess, Iterator, and Countable directly.
+
+ - Removed Horde/Http_Client from vendor/ since it is not used by
+   the framework itself.
+
+ - The validator validatesUniquenessOf() now accepts an
+   array in its "scope" option.  Contributed by Dmitriy Karpus.
+
+ - Migrations can now use a shorthand notation similar to that
+   introduced in Rails 2.0.  Contributed by Philipp Gildein.
+
+ - Added ./script/createapp that can be used to bootstrap a new
+   application.  Contributed by Philipp Gildein.
+
+ - Mad_Controller_Request clears the contents of the superglobals
+   by default.  This behavior can now be disabled with a constructor
+   option.  Requested by John Herren.
+
  - Our Mad_Model_ConnectionAdapter package has been expanded and
    moved into the Horde Project as Horde_Db.  We now bundle Horde_Db 
    and support more databases.

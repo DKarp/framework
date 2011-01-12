@@ -6,10 +6,11 @@ class <?= $this->className ?> extends ApplicationController
     protected function _initialize()
     {
     }
-    
+
 <?  foreach ($this->views as $view) : ?>
     public function <?= $view ?>()
     {
     }
+
 <?  endforeach; ?>
 }

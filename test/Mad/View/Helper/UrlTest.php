@@ -36,6 +36,7 @@ class Mad_View_Helper_UrlTest extends Mad_Test_Unit
         $this->view = new Mad_View_Base($controller);
         $this->view->addHelper(new Mad_View_Helper_Url($this->view));
         $this->view->addHelper(new Mad_View_Helper_Tag($this->view));
+        $this->view->addHelper(new Mad_View_Helper_Javascript($this->view));
     }
 
     public function testLinkTagWithStraightUrl()
@@ -44,22 +45,80 @@ class Mad_View_Helper_UrlTest extends Mad_Test_Unit
                             $this->view->linkTo('Hello', 'http://www.example.com'));
     }
     
+    public function testLinkTagWithoutHostOption()
+    {
+        $this->assertEquals('<a href="/weblog/show">Test Link</a>',
+                            $this->view->linkTo('Test Link', array('controller' => 'weblog', 'action' => 'show')));
+    }
+
+    public function testLinkTagWithHostOption()
+    {
+        $this->assertEquals('<a href="http://www.example.com/weblog/show">Test Link</a>',
+                            $this->view->linkTo('Test Link', array('controller' => 'weblog', 'action' => 'show', 'host' => 'www.example.com')));
+    }
+
     public function testLinkTagWithQuery()
     {
         $this->assertEquals('<a href="http://www.example.com?q1=v1&amp;q2=v2">Hello</a>',
                             $this->view->linkTo('Hello', 'http://www.example.com?q1=v1&amp;q2=v2'));
     }
-    
+
     public function testLinkTagWithQueryAndNoName()
     {
         $this->assertEquals("<a href=\"http://www.example.com?q1=v1&amp;q2=v2\">http://www.example.com?q1=v1&amp;q2=v2</a>",
                             $this->view->linkTo(null, 'http://www.example.com?q1=v1&amp;q2=v2'));
     }
-    
+
     public function testLinkTagWithImg()
     {
         $this->assertEquals("<a href=\"http://www.example.com\"><img src='/favicon.jpg' /></a>",
                             $this->view->linkTo("<img src='/favicon.jpg' />", "http://www.example.com"));
+    }
+
+    public function testLinkWithNilHtmlOptions()
+    {
+        $this->assertEquals("<a href=\"/mock/myaction\">Hello</a>",
+                            $this->view->linkTo("Hello", array('action' => 'myaction'), null));
+    }
+
+    public function testLinkTagWithCustomOnclick()
+    {
+        $this->assertEquals("<a href=\"http://www.example.com\" onclick=\"alert('yay!')\">Hello</a>",
+                            $this->view->linkTo("Hello", "http://www.example.com", array('onclick' => "alert('yay!')")));
+    }
+
+    public function testLinkTagWithJavascriptConfirm()
+    {
+        $this->assertEquals("<a href=\"http://www.example.com\" onclick=\"return confirm('Are you sure?');\">Hello</a>",
+                            $this->view->linkTo("Hello", "http://www.example.com", array('confirm' => "Are you sure?")));
+        $this->assertEquals("<a href=\"http://www.example.com\" onclick=\"return confirm('You can\\'t possibly be sure, can you?');\">Hello</a>",
+                            $this->view->linkTo("Hello", "http://www.example.com", array('confirm' => "You can't possibly be sure, can you?")));
+        $this->assertEquals("<a href=\"http://www.example.com\" onclick=\"return confirm('You can\\'t possibly be sure,\\n can you?');\">Hello</a>",
+                            $this->view->linkTo("Hello", "http://www.example.com", array('confirm' => "You can't possibly be sure,\n can you?")));
+    }
+
+    public function testLinkTagUsingPostJavascript()
+    {
+        $this->assertEquals("<a href=\"http://www.example.com\" onclick=\"var f = document.createElement('form'); f.style.display = 'none'; this.parentNode.appendChild(f); f.method = 'POST'; f.action = this.href;f.submit();return false;\">Hello</a>",
+                            $this->view->linkTo("Hello", "http://www.example.com", array('method' => 'post')));
+    }
+
+    public function testLinkTagUsingDeleteJavascript()
+    {
+        $this->assertEquals("<a href=\"http://www.example.com\" onclick=\"var f = document.createElement('form'); f.style.display = 'none'; this.parentNode.appendChild(f); f.method = 'POST'; f.action = this.href;var m = document.createElement('input'); m.setAttribute('type', 'hidden'); m.setAttribute('name', '_method'); m.setAttribute('value', 'delete'); f.appendChild(m);f.submit();return false;\">Destroy</a>",
+                            $this->view->linkTo("Destroy", "http://www.example.com", array('method' => 'delete')));
+    }
+
+    public function testLinkTagUsingPostJavascriptAndConfirm()
+    {
+        $this->assertEquals("<a href=\"http://www.example.com\" onclick=\"if (confirm('Are you serious?')) { var f = document.createElement('form'); f.style.display = 'none'; this.parentNode.appendChild(f); f.method = 'POST'; f.action = this.href;f.submit(); };return false;\">Hello</a>",
+                            $this->view->linkTo("Hello", "http://www.example.com", array('method' => 'post', 'confirm' => "Are you serious?")));
+    }
+
+    public function testLinkTagUsingDeleteJavascriptAndConfirm()
+    {
+        $this->assertEquals("<a href=\"/images/destroy/1\" onclick=\"if (confirm('Are you serious?')) { var f = document.createElement('form'); f.style.display = 'none'; this.parentNode.appendChild(f); f.method = 'POST'; f.action = this.href;var m = document.createElement('input'); m.setAttribute('type', 'hidden'); m.setAttribute('name', '_method'); m.setAttribute('value', 'delete'); f.appendChild(m);f.submit(); };return false;\">Destroy</a>",
+                            $this->view->linkTo("Destroy", array('controller' => 'images', 'action' => 'destroy', 'id' => 1), array('method' => 'delete', 'confirm' => "Are you serious?")));
     }
 
     public function testLinkToUnless()
