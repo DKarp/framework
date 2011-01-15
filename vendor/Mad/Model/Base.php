@@ -1088,9 +1088,8 @@ abstract class Mad_Model_Base extends Mad_Support_Object
      */
     public static function find($type, $options=null, $bindVars=null)
     {
-        // hack to get name of this class (because of static)
-        $bt = debug_backtrace();
-        $m = new $bt[1]['class'];
+        $class = get_called_class();
+        $m = new $class;
         return $m->_find($type, $options, $bindVars);
     }
 
@@ -1106,9 +1105,8 @@ abstract class Mad_Model_Base extends Mad_Support_Object
      */
     public static function first($options=null, $bindVars=null)
     {
-        // hack to get name of this class (because of static)
-        $bt = debug_backtrace();
-        $m = new $bt[1]['class'];
+        $class = get_called_class();
+        $m = new $class;
         return $m->_find('first', $options, $bindVars);
     }
 
@@ -1120,9 +1118,8 @@ abstract class Mad_Model_Base extends Mad_Support_Object
      */
     public static function count($options=null, $bindVars=null) 
     {
-        // hack to get name of this class (because of static)
-        $bt = debug_backtrace();
-        $m = new $bt[1]['class'];
+        $class = get_called_class();
+        $m = new $class;
         return $m->_count($options, $bindVars);
     }
 
@@ -1157,9 +1154,8 @@ abstract class Mad_Model_Base extends Mad_Support_Object
      */
     protected static function findBySql($type, $sql, $bindVars=null)
     {
-        // hack to get name of this class (because of static)
-        $bt = debug_backtrace();
-        $m = new $bt[1]['class'];
+        $class = get_called_class();
+        $m = new $class;
         return $m->_findBySql($type, $sql, $bindVars);
     }
 
@@ -1182,9 +1178,8 @@ abstract class Mad_Model_Base extends Mad_Support_Object
      */
     protected static function countBySql($sql, $bindVars=null)
     {
-        // hack to get name of this class (because of static)
-        $bt = debug_backtrace();
-        $m = new $bt[1]['class'];
+        $class = get_called_class();
+        $m = new $class;
         return $m->_countBySql($sql, $bindVars);
     }
 
@@ -1197,9 +1192,8 @@ abstract class Mad_Model_Base extends Mad_Support_Object
      */
     protected static function paginate($options=null, $bindVars=null)
     {
-        // hack to get name of this class (because of static)
-        $bt = debug_backtrace();
-        $m = new $bt[1]['class'];
+        $class = get_called_class();
+        $m = new $class;
         return $m->_paginate($options, $bindVars);
     }
 
@@ -1215,9 +1209,8 @@ abstract class Mad_Model_Base extends Mad_Support_Object
      */
     public static function exists($id)
     {
-        // hack to get name of this class (because of static)
-        $bt = debug_backtrace();
-        $m = new $bt[1]['class'];
+        $class = get_called_class();
+        $m = new $class;
         return $m->_exists($id);
     }
 
@@ -1240,9 +1233,8 @@ abstract class Mad_Model_Base extends Mad_Support_Object
      */
     public static function create($attributes)
     {
-        // hack to get name of this class (because of static)
-        $bt = debug_backtrace();
-        $m = new $bt[1]['class'];
+        $class = get_called_class();
+        $m = new $class;
         return $m->_create($attributes);
     }
 
@@ -1265,9 +1257,8 @@ abstract class Mad_Model_Base extends Mad_Support_Object
      */
     public static function update($id, $attributes=null)
     {
-        // hack to get name of this class (because of static)
-        $bt = debug_backtrace();
-        $m = new $bt[1]['class'];
+        $class = get_called_class();
+        $m = new $class;
         return $m->_update($id, $attributes);
     }
 
@@ -1289,9 +1280,8 @@ abstract class Mad_Model_Base extends Mad_Support_Object
      */
     public static function delete($id)
     {
-        // hack to get name of this class (because of static)
-        $bt = debug_backtrace();
-        $m = new $bt[1]['class'];
+        $class = get_called_class();
+        $m = new $class;
         return $m->_delete($id);
     }
 
@@ -1310,9 +1300,8 @@ abstract class Mad_Model_Base extends Mad_Support_Object
      */
     public static function updateAll($set, $conditions=null, $bindVars=null)
     {
-        // hack to get name of this class (because of static)
-        $bt = debug_backtrace();
-        $m = new $bt[1]['class'];
+        $class = get_called_class();
+        $m = new $class;
         return $m->_updateAll($set, $conditions, $bindVars);
     }
 
@@ -1328,9 +1317,8 @@ abstract class Mad_Model_Base extends Mad_Support_Object
      */
     public static function deleteAll($conditions=null, $bindVars=null)
     {
-        // hack to get name of this class (because of static)
-        $bt = debug_backtrace();
-        $m = new $bt[1]['class'];
+        $class = get_called_class();
+        $m = new $class;
         return $m->_deleteAll($conditions, $bindVars);
     }
 
